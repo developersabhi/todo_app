@@ -10,6 +10,10 @@ const getAllToDO =(setToDo) =>{
 }
 
 const addToDo =(text ,setText ,setToDo)=>{
+    if(text ===''){
+        alert("Please fill in the blankds");
+        return;
+    }
     axios.post(`${baseUrl}/save`,{text}).then((data)=>{
         console.log(data)
         setText("")
@@ -30,12 +34,18 @@ const updateToDo =(toDoId , text , setToDo , setText, setIsUpdating)=>{
 
 
 const deleteToDo =(_id , setToDo)=>{
+    console.log("=====data==",_id,setToDo);
+    const data = {
+        _id,
+        text: setToDo
+    }
     axios
-    .delete(`${baseUrl}/delete`,{ _id})
+    .post(`${baseUrl}/delete`,data)
     .then((data)=>{
         console.log(data)
         getAllToDO(setToDo)
-    }).catch((err)=>console.log(err))
+    }).catch((err)=>console.log(err));
+    getAllToDO(setToDo);
 }
 
 export {getAllToDO , addToDo , updateToDo , deleteToDo} 
